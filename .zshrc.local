@@ -26,7 +26,7 @@ zstyle ':prompt:grml:left:setup' items rc virtual-env change-root user at host p
 # just type '...' to get '../..'
 rationalise-dot() {
 local MATCH
-if [[ $LBUFFER =~ '(^|/| |	|'$'\n''|\||;|&)\.\.$' ]]; then
+if [[ $LBUFFER =~ '(^|/| |  |'$'\n''|\||;|&)\.\.$' ]]; then
   LBUFFER+=/
   zle self-insert
   zle self-insert
@@ -41,19 +41,149 @@ bindkey -M isearch . self-insert
 
 ## END OF FILE #################################################################
 
-export EDITOR=vim
+# Git config
+git config --global user.name "SamarV-121"
+git config --global user.email "samarvispute121@gmail.com"
+git config --global credential.helper store
+git config --global commit.gpgsign true
+git config --global user.signingkey "687A73FEA3744800"
+git config --global gpg.program gpg2
+git config --global credential.username "SamarV-121"
+
+# Exports
+export CCACHE_COMPRESS=1
+export CCACHE_DIR=$HOME/.ccache
+export CCACHE_EXEC=/usr/bin/ccache
+export USE_CCACHE=1
+export SKIP_ABI_CHECKS=true
+export EDITOR=nano
 export GOPATH=$HOME/.go
 export PATH="$HOME/bin:$HOME/.gem/ruby/2.7.0/bin:$PATH"
 export ANDROID_HOME=$HOME/android/sdk/
 export PROMPT_COMMAND='history -a'
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
+export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m"
 
-alias pacman='yay'
-
-# WSL
-if [ ! -z $WSL_DISTRO_NAME ]; then
-  alias adb='adb.exe'
-  alias fastboot='fastboot.exe'
+# Alias
+alias -='cd -'
+alias ..='cd ..'
+alias ...='cd ../../'
+alias ....='cd ../..'
+alias .....=../../../..
+alias ......='cd ../../..'
+alias ........='cd ../../../..'
+alias 1='cd -'
+alias 2='cd -2'
+alias 3='cd -3'
+alias 4='cd -4'
+alias 5='cd -5'
+alias 6='cd -6'
+alias 7='cd -7'
+alias 8='cd -8'
+alias 9='cd -9'
+alias _='sudo '
+alias afind='ack -il'
+alias c=clear
+alias changemirror='svim /etc/pacman.d/mirrorlist'
+alias cloud='gcloud alpha cloud-shell ssh'
+alias da='du -sch'
+alias df='df -h'
+alias dir='command ls -lSrah'
+alias dlock='sudo rm /var/lib/apt/lists/lock && sudo rm /var/cache/apt/archives/lock && sudo rm /var/lib/dpkg/lock'
+alias du='du -c -h'
+alias egrep='egrep --color=auto'
+alias enter_matrix='echo -e "\e[32m"; while :; do for i in {1..16}; do r="$(($RANDOM % 2))"; if [[ $(($RANDOM % 5)) == 1 ]]; then if [[ $(($RANDOM % 4)) == 1 ]]; then v+="\e[1m $r   "; else v+="\e[2m $r   "; fi; else v+="     "; fi; done; echo -e "$v"; v=""; done'
+alias fgrep='fgrep --color=auto'
+alias free='free -h'
+alias freemem='sudo /sbin/sysctl -w vm.drop_caches=3'
+alias ga='git add -A'
+alias gc='git commit -s'
+alias gch='git cherry-pick'
+alias gcl='git reset --hard && git clean -f -d'
+alias gd='gdrive download'
+alias gf='git fetch'
+alias globurl='noglob urlglobber '
+alias go='git clone --depth=1'
+alias gp='git push -f'
+alias gr='git revert'
+alias gra='git remote add'
+alias gre='git reset --hard'
+alias grep='grep --color=tty -d skip'
+alias gu='gdrive upload'
+alias halt='sudo halt'
+alias help-zshglob=H-Glob
+alias history=omz_history
+alias insecscp='scp -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"'
+alias insecssh='ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"'
+alias l='ls -hF --color=auto'
+alias la='ll -A'
+alias lad='command ls -d .*(/)'
+alias lh='command ls -hAl --color=auto -v'
+alias ll='ls -alh'
+alias llog='sudo journalctl'
+alias lm='la | less'
+alias lr='ls -R'
+alias ls='ls --color=auto'
+alias lsa='command ls -a .*(.)'
+alias lsbig='command ls -flh *(.OL[1,10])'
+alias lsd='command ls -d *(/)'
+alias lse='command ls -d *(/^F)'
+alias lsl='command ls -l *(@)'
+alias lsnew='command ls -rtlh *(D.om[1,10])'
+alias lsnewdir='command ls -rthdl *(/om[1,10]) .*(D/om[1,10])'
+alias lsold='command ls -rtlh *(D.Om[1,10])'
+alias lsolddir='command ls -rthdl *(/Om[1,10]) .*(D/Om[1,10])'
+alias lss='command ls -l *(s,S,t)'
+alias lssmall='command ls -Srl *(.oL[1,10])'
+alias lsw='command ls -ld *(R,W,X.^ND/)'
+alias lsx='command ls -l *(*)'
+alias mem-by-proc='ps aux | head -1; ps aux | sort -rnk 4 | head -n5'
+alias mkdir='mkdir -p -v'
+alias mlock='sudo rm /var/lib/pacman/db.lck'
+alias nano='nano -w'
+alias new=modified
+alias pacclean='pacman -Sc'
+alias pacin='pacman -S'
+alias pacind='pacman -S --asdeps'
+alias pacinfo='pacman -Si'
+alias pacinu='pacman -U'
+alias pacmake='makepkg -fcsi'
+alias pacman='sudo pacman'
+alias pacre='pacman -R'
+alias pacse='pacman -Ss'
+alias pacun='pacman -Rcsn'
+alias pacupa='pacman -Sy && sudo abs'
+alias pacupd='pacman -Sy'
+alias pacupg='pacman -Syu'
+alias powertop='sudo powertop'
+alias rd=rmdir
+alias reboot='sudo reboot'
+alias rfa='repo forall -c'
+alias rfap='repo forall -p -c'
+alias rinf='repo info'
+alias rmcdir='cd ..; rmdir $OLDPWD || cd $OLDPWD'
+alias root='sudo su'
+alias rra='repo rebase --auto-stash'
+alias rs='repo sync'
+alias rsrra='repo sync ; repo rebase --auto-stash'
+alias rst='repo status'
+alias rsto='repo status -o'
+alias ru='repo upload'
+alias scat='sudo cat'
+alias se=simple-extract
+alias sudo='sudo '
+alias svim=sudoedit
+alias sync='repo sync -c -q -j$(nproc --all) --force-sync --no-clone-bundle --no-tags --optimized-fetch --prune'
+alias term2iso='echo '\''Setting terminal to iso mode'\'' ; print -n '\''\e%@'\'
+alias term2utf='echo '\''Setting terminal to utf-8 mode'\''; print -n '\''\e%G'\'
+alias tlog='sudo journalctl -f'
+alias vnc='vnc4server :1 -blacklisttimeout 0'
+vnc='vnc4server :1 -blacklisttimeout 0'
+if which hub &>/dev/null; then
+  alias git=hub
 fi
+
+nn () { nano $@ & if echo $@ | grep "/"; then; dir=$(echo ${1%/*}); fi; mkdir -p $dir 2> /dev/null; nano -w $@ }
 
 zstyle ':completion:*' rehash true
 

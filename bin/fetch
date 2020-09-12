@@ -1,0 +1,39 @@
+fetch () {
+if [ -d kernel/samsung/universal7904 ]; then
+git -C kernel/samsung/universal7904 fetch -q https://github.com/SamarV-121/android_kernel_samsung_universal7904 $(basename `pwd`) && git -C kernel/samsung/universal7904 checkout FETCH_HEAD
+else
+git clone --depth=1 https://github.com/SamarV-121/android_kernel_samsung_universal7904 -b $(basename `pwd`) kernel/samsung/universal7904
+fi
+if [ -d device/samsung/m20lte ]; then
+git -C device/samsung/m20lte fetch -q https://github.com/SamarV-121/android_device_samsung_m20lte $(basename `pwd`) && git -C device/samsung/m20lte checkout FETCH_HEAD
+else
+git clone https://github.com/SamarV-121/android_device_samsung_m20lte -b $(basename `pwd`) device/samsung/m20lte
+fi
+if [ -d device/samsung/m30lte ]; then
+git -C device/samsung/m30lte fetch -q https://github.com/SamarV-121/android_device_samsung_m30lte $(basename `pwd`) && git -C device/samsung/m30lte checkout FETCH_HEAD
+else
+git clone https://github.com/SamarV-121/android_device_samsung_m30lte -b $(basename `pwd`) device/samsung/m20lte
+fi
+if [ -d device/samsung/a30 ]; then
+git -C device/samsung/a30 fetch -q https://github.com/SamarV-121/android_device_samsung_a30 $(basename `pwd`) && git -C device/samsung/a30 checkout FETCH_HEAD
+else
+git clone https://github.com/SamarV-121/android_device_samsung_a30 -b $(basename `pwd`) device/samsung/m20lte
+fi
+if [ -d device/samsung/a40 ]; then
+git -C device/samsung/a40 fetch -q https://github.com/SamarV-121/android_device_samsung_a40 $(basename `pwd`) && git -C device/samsung/a40 checkout FETCH_HEAD
+else
+git clone https://github.com/SamarV-121/android_device_samsung_a40 -b $(basename `pwd`) device/samsung/m20lte
+fi
+if [ -d device/samsung/universal7904-common ]; then
+git -C device/samsung/universal7904-common fetch -q https://github.com/SamarV-121/android_device_samsung_universal7904-common $(basename `pwd`) && git -C device/samsung/universal7904-common checkout FETCH_HEAD
+else
+git clone https://github.com/SamarV-121/android_device_samsung_universal7904-common -b $(basename `pwd`) device/samsung/universal7904-common
+fi
+if [ -d vendor/samsung ]; then
+git -C vendor/samsung fetch -q https://github.com/SamarV-121/android_vendor_samsung $(basename `pwd`) && git -C vendor/samsung checkout FETCH_HEAD
+else
+git clone https://github.com/SamarV-121/android_vendor_samsung -b $(basename `pwd`) vendor/samsung
+fi
+}
+
+fetch

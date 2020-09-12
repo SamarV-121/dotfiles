@@ -1,16 +1,8 @@
-luca020400 Dot-Files
+SamarV-121 Dot-Files
 =====================
  
- 1. Clone the repo recursively
- 
-```bash
- git clone --recursive git@github.com:luca020400/dotfiles.git dotfiles
-```
-
-2. Install dot-files
+ 1. Install dot-files
 
 ```bash
- cp -R dotfiles/bin $HOME/.
- cp -R dotfiles/.vim* $HOME/.
- cp -R dotfiles/.zsh* $HOME/.
+ curl https://raw.githubusercontent.com/SamarV-121/dotfiles/master/install.sh | bash
 ```
