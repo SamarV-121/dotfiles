@@ -65,7 +65,6 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
 export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m"
 
 # Alias
-alias -='cd -'
 alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../..'
@@ -140,7 +139,7 @@ alias lsx='command ls -l *(*)'
 alias mem-by-proc='ps aux | head -1; ps aux | sort -rnk 4 | head -n5'
 alias mkdir='mkdir -p -v'
 alias mlock='sudo rm /var/lib/pacman/db.lck'
-alias nano='nano -w'
+alias nano='nano -w -c'
 alias new=modified
 alias pacclean='pacman -Sc'
 alias pacin='pacman -S'
@@ -184,6 +183,24 @@ if which hub &>/dev/null; then
 fi
 
 nn () { nano $@ & if echo $@ | grep "/"; then; dir=$(echo ${1%/*}); fi; mkdir -p $dir 2> /dev/null; nano -w $@ }
+
+cleanup () { find ~/.cache/ -type f -atime +100 -delete; sudo journalctl --vacuum-size=50M; sudo pacman -Scc }
+
+filepush () {
+[[ $* ]] &&  curl --upload-file "$1" https://filepush.co/upload/"$1"
+}
+
+bayfile () {
+[[ $* ]] && curl -F file=@"$1" https://api.bayfiles.com/upload | cut -d'"' -f12
+}
+
+gofile () {
+if [[ $* ]]; then
+SRV=$(curl -m 15 https://apiv2.gofile.io/getServer | cut -d'"' -f10)
+LNK=$(curl -F file=@"$1" https://"$SRV".gofile.io/uploadFile | cut -d'"' -f10)
+echo https://gofile.io/d/"$LNK" 
+fi
+}
 
 zstyle ':completion:*' rehash true
 

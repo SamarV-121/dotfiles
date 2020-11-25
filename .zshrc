@@ -3825,3 +3825,5 @@ zrclocal
 # Local variables:
 # mode: sh
 # End:
+
+eval $(thefuck --alias)
