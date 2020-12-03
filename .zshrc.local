@@ -84,6 +84,7 @@ alias _='sudo '
 alias afind='ack -il'
 alias c=clear
 alias changemirror='svim /etc/pacman.d/mirrorlist'
+alias cleanup='find ~/.cache/ -type f -atime +100 -delete; sudo journalctl --vacuum-size=50M; sudo pacman -Scc'
 alias cloud='gcloud alpha cloud-shell ssh'
 alias da='du -sch'
 alias df='df -h'
@@ -170,6 +171,7 @@ alias rsto='repo status -o'
 alias ru='repo upload'
 alias scat='sudo cat'
 alias se=simple-extract
+alias ssh='ssh -o ServerAliveInterval=60'
 alias sudo='sudo '
 alias svim=sudoedit
 alias sync='repo sync -c -q -j$(nproc --all) --force-sync --no-clone-bundle --no-tags --optimized-fetch --prune'
@@ -182,9 +184,18 @@ if which hub &>/dev/null; then
   alias git=hub
 fi
 
-nn () { nano $@ & if echo $@ | grep "/"; then; dir=$(echo ${1%/*}); fi; mkdir -p $dir 2> /dev/null; nano -w $@ }
+newline () {
+git ls-files -z | while IFS= read -rd '' f; do tail -c1 < "$f" | read -r _ || echo >> "$f"; done
+}
 
-cleanup () { find ~/.cache/ -type f -atime +100 -delete; sudo journalctl --vacuum-size=50M; sudo pacman -Scc }
+nn () {
+nano "$@" &
+if echo "$@" | grep "/"; then
+dir="${1%/*}"
+fi
+mkdir -p "$dir" 2> /dev/null
+nano -wc "$@"
+}
 
 filepush () {
 [[ $* ]] &&  curl --upload-file "$1" https://filepush.co/upload/"$1"
@@ -196,7 +207,7 @@ bayfile () {
 
 gofile () {
 if [[ $* ]]; then
-SRV=$(curl -m 15 https://apiv2.gofile.io/getServer | cut -d'"' -f10)
+SRV=$(curl -s -m 15 https://apiv2.gofile.io/getServer | cut -d'"' -f10)
 LNK=$(curl -F file=@"$1" https://"$SRV".gofile.io/uploadFile | cut -d'"' -f10)
 echo https://gofile.io/d/"$LNK" 
 fi
