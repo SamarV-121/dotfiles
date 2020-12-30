@@ -87,7 +87,7 @@ alias c=clear
 alias changemirror='svim /etc/pacman.d/mirrorlist'
 alias cleanup='find ~/.cache/ -type f -atime +100 -delete; sudo journalctl --vacuum-size=50M; sudo pacman -Scc'
 alias cloud='gcloud alpha cloud-shell ssh'
-alias cp="cp -p"
+alias cp='cp -p'
 alias da='du -sch'
 alias df='df -h'
 alias dir='command ls -lSrah'
@@ -101,10 +101,13 @@ alias freemem='sudo /sbin/sysctl -w vm.drop_caches=3'
 alias ga='git add -A'
 alias gc='git commit -s'
 alias gch='git cherry-pick'
+alias gchc='git cherry-pick --continue'
 alias gcl='git reset --hard && git clean -f -d'
 alias gd='gdrive download'
 alias gf='git fetch'
 alias globurl='noglob urlglobber '
+alias gmc='git am --continue'
+alias gmr='git am --abort'
 alias go='git clone --depth=1'
 alias gp='git push -f'
 alias gr='git revert'
@@ -117,10 +120,12 @@ alias help-zshglob=H-Glob
 alias history=omz_history
 alias insecscp='scp -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"'
 alias insecssh='ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"'
+alias install='yay -Sy'
 alias l='ls -hF --color=auto'
 alias la='ll -A'
 alias lad='command ls -d .*(/)'
 alias lh='command ls -hAl --color=auto -v'
+alias list='yay -Qs'
 alias ll='ls -alh'
 alias llog='sudo journalctl'
 alias lm='la | less'
@@ -139,10 +144,11 @@ alias lss='command ls -l *(s,S,t)'
 alias lssmall='command ls -Srl *(.oL[1,10])'
 alias lsw='command ls -ld *(R,W,X.^ND/)'
 alias lsx='command ls -l *(*)'
+alias md='mkdir -p'
 alias mem-by-proc='ps aux | head -1; ps aux | sort -rnk 4 | head -n5'
 alias mkdir='mkdir -p -v'
 alias mlock='sudo rm /var/lib/pacman/db.lck'
-alias mv="mv -i"
+alias mv='mv -i'
 alias nano='nano -w -c'
 alias new=modified
 alias pacclean='pacman -Sc'
@@ -161,10 +167,11 @@ alias pacupg='pacman -Syu'
 alias powertop='sudo powertop'
 alias rd=rmdir
 alias reboot='sudo reboot'
+alias remove='yay -Rs'
 alias rfa='repo forall -c'
 alias rfap='repo forall -p -c'
 alias rinf='repo info'
-alias rm="rm -i"
+alias rm='rm -i'
 alias rmcdir='cd ..; rmdir $OLDPWD || cd $OLDPWD'
 alias root='sudo su'
 alias rra='repo rebase --auto-stash'
@@ -175,6 +182,7 @@ alias rsto='repo status -o'
 alias ru='repo upload'
 alias scat='sudo cat'
 alias se=simple-extract
+alias search='yay -Ss'
 alias ssh='ssh -o ServerAliveInterval=60'
 alias sudo='sudo '
 alias svim=sudoedit
@@ -182,12 +190,16 @@ alias sync='repo sync -c -q -j$(nproc --all) --force-sync --no-clone-bundle --no
 alias term2iso='echo '\''Setting terminal to iso mode'\'' ; print -n '\''\e%@'\'
 alias term2utf='echo '\''Setting terminal to utf-8 mode'\''; print -n '\''\e%G'\'
 alias tlog='sudo journalctl -f'
+alias update='yay -Syy'
+alias upgrade='yay -Syyu'
+alias url-quote='autoload -U url-quote-magic ; zle -N self-insert url-quote-magic'
 alias vnc='vnc4server :1 -blacklisttimeout 0'
-vnc='vnc4server :1 -blacklisttimeout 0'
+
 if which hub &>/dev/null; then
   alias git=hub
 fi
 
+# Functions
 newline () {
 git ls-files -z | while IFS= read -rd '' f; do tail -c1 < "$f" | read -r _ || echo >> "$f"; done
 }
@@ -216,6 +228,12 @@ LNK=$(curl -F file=@"$1" https://"$SRV".gofile.io/uploadFile | cut -d'"' -f10)
 echo https://gofile.io/d/"$LNK" 
 fi
 }
+
+tg() {
+curl -s "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage" -d "chat_id=$1" -d "parse_mode=Markdown" -d "text=$2" -d "reply_to_message_id=$3"
+}
+
+source "$HOME"/.TOKENs
 
 zstyle ':completion:*' rehash true
 
