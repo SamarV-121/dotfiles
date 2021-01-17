@@ -141,7 +141,7 @@ BUILD\_TYPE: $BUILD_TYPE" >/dev/null
 	make "$TARGET_CMD" -j"$(nproc --all)" 2>&1 | tee build_"$DEVICE".log
 	BUILD_END=$(date +"%s")
 	BUILD_DIFF=$((BUILD_END - BUILD_START))
-	OTA_PATH=$(find "$OUTDIR"/*2020*.zip)
+	OTA_PATH=$(find "$OUTDIR"/*2021*.zip)
 	if [[ -e $OTA_PATH ]]; then
 		OTA_NAME=$(sed "s#$OUTDIR/##" <<<"$OTA_PATH")
 		OTA_SIZE=$(du -h "$OTA_PATH" | head -n1 | awk '{print $1}')
