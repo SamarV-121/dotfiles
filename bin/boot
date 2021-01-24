@@ -1,0 +1,10 @@
+#!/bin/bash
+
+case $1 in
+	-p|--permissive )
+		fastboot boot $2 --cmdline "\"$(od -A n -S1 -j 64 -N 512 $1) androidboot.selinux=permissive\""
+	;;
+	-e|--enforcing )
+		fastboot boot $1 --cmdline "\"$(od -A n -S1 -j 64 -N 512 $1) androidboot.selinux=enforcing\""
+	;;	
+esac

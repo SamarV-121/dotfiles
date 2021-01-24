@@ -32,6 +32,7 @@ git config --global user.name "SamarV-121"
 git config --global user.email "samarvispute121@gmail.com"
 git config --global credential.helper store
 git config --global credential.username "SamarV-121"
+git config --global core.hooksPath ~/.git-hooks
 [[ $(gpg --list-keys) ]] &&
 	git config --global commit.gpgsign true &&
 	git config --global user.signingkey "687A73FEA3744800" &&
@@ -45,7 +46,7 @@ export USE_CCACHE=1
 export SKIP_ABI_CHECKS=true
 export EDITOR=nano
 export GOPATH=$HOME/.go
-export PATH="$HOME/bin:$HOME/.gem/ruby/2.7.0/bin:$PATH"
+export PATH="$HOME/.bin:$HOME/.gem/ruby/2.7.0/bin:$PATH"
 export ANDROID_HOME=$HOME/android/sdk/
 export PROMPT_COMMAND='history -a'
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
@@ -78,6 +79,7 @@ alias df='df -h'
 alias dir='command ls -lSrah'
 alias du='du -c -h'
 alias enter_matrix='echo -e "\e[32m"; while :; do for i in {1..16}; do r="$(($RANDOM % 2))"; if [[ $(($RANDOM % 5)) == 1 ]]; then if [[ $(($RANDOM % 4)) == 1 ]]; then v+="\e[1m $r   "; else v+="\e[2m $r   "; fi; else v+="     "; fi; done; echo -e "$v"; v=""; done'
+alias fileup='fileup.sh'
 alias free='free -h'
 alias freemem='sudo /sbin/sysctl -w vm.drop_caches=3'
 alias ga='git add -A'
@@ -88,6 +90,7 @@ alias gchc='git cherry-pick --continue'
 alias gcl='git reset --hard && git clean -f -d'
 alias gd='gdrive download'
 alias gf='git fetch'
+alias gt='gitutils.sh'
 alias gmc='git am --continue'
 alias gmr='git am --abort'
 alias go='git clone --depth=1'
@@ -169,26 +172,8 @@ nn() {
 	nano -wc "$@"
 }
 
-filepush() {
-	[ $* ] && curl --upload-file "$1" https://filepush.co/upload/"$1"
-}
-
-bayfile() {
-	[ $* ] && curl -F file=@"$1" https://api.bayfiles.com/upload | cut -d'"' -f12
-}
-
-gofile() {
-	if [ $* ]; then
-		SRV=$(curl -s -m 15 https://apiv2.gofile.io/getServer | cut -d'"' -f10)
-		LNK=$(curl -F file=@"$1" https://"$SRV".gofile.io/uploadFile | cut -d'"' -f10)
-		echo https://gofile.io/d/"$LNK"
-	fi
-}
-
-gitam() {
-for l in $*; do
-    curl $l.patch | git am -3 | sed 's|#.*||'| sed 's|.patch||' 
-done
+update_dotfiles() {
+	 curl -s https://raw.githubusercontent.com/SamarV-121/dotfiles/master/install.sh | bash
 }
 
 source "$HOME"/.TOKENs
