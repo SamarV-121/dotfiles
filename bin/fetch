@@ -1,57 +1,24 @@
-if [ -d vendor/lineage ]; then
-	BRANCH=lineage-18.1
-	if [ -d vendor/extra ]; then
-		git -C vendor/extra fetch origin $BRANCH && git -C vendor/extra reset --hard FETCH_HEAD
+#!/bin/bash
+
+REPOSITORIES=(
+	device/realme/RMX2001
+	device/samsung/m20lte
+	device/samsung/m30lte
+	device/samsung/a30
+	device/samsung/a40
+	device/samsung/universal7904-common
+	kernel/samsung/universal7904
+	vendor/extra
+	vendor/realme/RMX2001
+	vendor/samsung
+)
+BRANCH=lineage-18.1
+
+for repository in "${REPOSITORIES[@]}"; do
+	if [ -d "$repository" ]; then
+		git -C "$repository" fetch origin "$BRANCH" && git -C "$repository" reset --hard FETCH_HEAD
 	else
-		git clone https://github.com/SamarV-121/android_vendor_extra -b $BRANCH vendor/extra
+		git clone "https://github.com/SamarV-121/android_${repository//\//_}" -b "$BRANCH" "$repository" ||
+		git clone "https://github.com/SamarV-121/proprietary_${repository//\//_}" -b "$BRANCH" "$repository"
 	fi
-elif [ -d vendor/aosp ]; then
-	BRANCH=eleven
-fi
-
-if [ -d kernel/samsung/universal7904 ]; then
-	git -C kernel/samsung/universal7904 fetch origin $BRANCH && git -C kernel/samsung/universal7904 reset --hard FETCH_HEAD
-else
-	git clone --depth=1 https://github.com/SamarV-121/android_kernel_samsung_universal7904 -b $BRANCH kernel/samsung/universal7904
-fi
-if [ -d device/samsung/m20lte ]; then
-	git -C device/samsung/m20lte fetch origin $BRANCH && git -C device/samsung/m20lte reset --hard FETCH_HEAD
-else
-	git clone https://github.com/SamarV-121/android_device_samsung_m20lte -b $BRANCH device/samsung/m20lte
-fi
-if [ -d device/samsung/m30lte ]; then
-	git -C device/samsung/m30lte fetch origin $BRANCH && git -C device/samsung/m30lte reset --hard FETCH_HEAD
-else
-	git clone https://github.com/SamarV-121/android_device_samsung_m30lte -b $BRANCH device/samsung/m30lte
-fi
-if [ -d device/samsung/a30 ]; then
-	git -C device/samsung/a30 fetch origin $BRANCH && git -C device/samsung/a30 reset --hard FETCH_HEAD
-else
-	git clone https://github.com/SamarV-121/android_device_samsung_a30 -b $BRANCH device/samsung/a30
-fi
-if [ -d device/samsung/a40 ]; then
-	git -C device/samsung/a40 fetch origin $BRANCH && git -C device/samsung/a40 reset --hard FETCH_HEAD
-else
-	git clone https://github.com/SamarV-121/android_device_samsung_a40 -b $BRANCH device/samsung/a40
-fi
-if [ -d device/samsung/universal7904-common ]; then
-	git -C device/samsung/universal7904-common fetch origin $BRANCH && git -C device/samsung/universal7904-common reset --hard FETCH_HEAD
-else
-	git clone https://github.com/SamarV-121/android_device_samsung_universal7904-common -b $BRANCH device/samsung/universal7904-common
-fi
-if [ -d vendor/samsung ]; then
-	git -C vendor/samsung fetch origin $BRANCH && git -C vendor/samsung reset --hard FETCH_HEAD
-else
-	git clone https://github.com/SamarV-121/proprietary_vendor_samsung -b $BRANCH vendor/samsung
-fi
-
-if [ -d device/realme/RMX2001 ]; then
-	git -C device/realme/RMX2001 fetch origin $BRANCH && git -C device/realme/RMX2001 reset --hard FETCH_HEAD
-else
-	git clone https://github.com/SamarV-121/android_device_realme_RMX2001 -b $BRANCH device/realme/RMX2001
-fi
-if [ -d vendor/realme ]; then
-	git -C vendor/realme fetch origin $BRANCH && git -C vendor/realme reset --hard FETCH_HEAD
-else
-	git clone https://github.com/SamarV-121/proprietary_vendor_realme -b $BRANCH vendor/realme
-fi
+done

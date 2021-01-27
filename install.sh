@@ -17,5 +17,5 @@ ln -sf ~/.dotfiles/.git-hooks ~/.git-hooks
 ln -sf ~/.dotfiles/.p10k.zsh ~/.p10k.zsh
 ln -sf ~/.dotfiles/.zshrc ~/.zshrc
 ln -sf ~/.dotfiles/.zsh_custom ~/.zsh_custom
-ln -sf ~/.dotfiles/bin ~/.bin
+ln -sf ~/.dotfiles/bin ~/bin
 ln -sf ~/.dotfiles/latte.layout.latte ~/latte.layout.latte

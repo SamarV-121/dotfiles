@@ -135,7 +135,7 @@ BUILD\_TYPE: $BUILD_TYPE" >/dev/null
 		GH_RELEASE=SamarV-121/releases && TAG=$(date -u +%Y%m%d_%H%M%S)
 		if [[ $UPLOAD == Y ]]; then
 			echo Uploading "$OTA_NAME"...
-			github-release "$GH_RELEASE" "$TAG" "master" "Date: $(env TZ="$timezone" date)" "$OTA_PATH" 2>/dev/null
+			github-release "$GH_RELEASE" "$TAG" "master" "Date: $(env TZ="$timezone" date)" "$OTA_PATH"
 			echo "Download links:
 GitHub: https://github.com/$GH_RELEASE/releases/download/$TAG/$OTA_NAME
 Md5sum: $OTA_MD5"
