@@ -22,17 +22,17 @@ source "$ZSH/oh-my-zsh.sh"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Plugins
-source $HOME/.zsh_custom/zsh-completions/zsh-completions.plugin.zsh
-source $HOME/.zsh_custom/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
-source $HOME/.zsh_custom/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
-source $HOME/.zsh_custom/zsh-history-substring-search/zsh-history-substring-search.zsh
+source "$HOME/.zsh_custom/zsh-completions/zsh-completions.plugin.zsh"
+source "$HOME/.zsh_custom/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
+source "$HOME/.zsh_custom/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"
+source "$HOME/.zsh_custom/zsh-history-substring-search/zsh-history-substring-search.zsh"
 
 # Git config
 git config --global user.name "SamarV-121"
 git config --global user.email "samarvispute121@gmail.com"
 git config --global credential.helper store
 git config --global credential.username "SamarV-121"
-git config --global core.hooksPath ~/.git-hooks
+git config --global core.hooksPath "$HOME/.git-hooks"
 [[ $(gpg --list-keys) ]] &&
 	git config --global commit.gpgsign true &&
 	git config --global user.signingkey "687A73FEA3744800" &&
@@ -46,7 +46,7 @@ export USE_CCACHE=1
 export SKIP_ABI_CHECKS=true
 export EDITOR=nano
 export GOPATH=$HOME/.go
-export PATH="$HOME/.bin:$HOME/.gem/ruby/2.7.0/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.gem/ruby/2.7.0/bin:$PATH"
 export ANDROID_HOME=$HOME/android/sdk/
 export PROMPT_COMMAND='history -a'
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
@@ -128,15 +128,13 @@ alias md='mkdir -p'
 alias mem-by-proc='ps aux | head -1; ps aux | sort -rnk 4 | head -n5'
 alias mkdir='mkdir -p -v'
 alias nano='nano -w -c'
+alias pacman='sudo pacman'
 alias plock='sudo rm /var/lib/pacman/db.lck'
 alias powertop='sudo powertop'
-alias rd=rmdir
-alias reboot='sudo reboot'
 alias remove='yay -Rs'
 alias rfa='repo forall -c'
 alias rfap='repo forall -p -c'
 alias rinf='repo info'
-alias rmcdir='cd ..; rmdir $OLDPWD || cd $OLDPWD'
 alias root='sudo su'
 alias rra='repo rebase --auto-stash'
 alias rs='repo sync'
@@ -159,23 +157,16 @@ if which hub &>/dev/null; then
 fi
 
 # Functions
-nline() {
-	git ls-files -z | while IFS= read -rd '' f; do tail -c1 <"$f" | read -r _ || echo >>"$f"; done
-}
+function nline { git ls-files -z | while IFS= read -rd '' f; do tail -c1 <"$f" | read -r _ || echo >>"$f"; done; }
 
-nn() {
-	nano "$@" &
-	if echo "$@" | grep "/"; then
-		dir="${1%/*}"
-	fi
-	mkdir -p "$dir" 2>/dev/null
-	nano -wc "$@"
-}
+function nn { nano "$@" & if echo "$@" | grep "/"; then dir="${1%/*}"; fi; mkdir -p "$dir" 2>/dev/null; nano -wc "$@"; }
 
-update_dotfiles() {
-	 curl -s https://raw.githubusercontent.com/SamarV-121/dotfiles/master/install.sh | bash
-}
+function update_dotfiles { curl -s https://raw.githubusercontent.com/SamarV-121/dotfiles/master/install.sh | bash; }
+
+function decrypt { [ "$1" ] && gpg --decrypt --output "$(basename "$1" .gpg)" --recipient "samarvispute121@gmail.com" "$1"; }
+
+function encrypt { [ "$1" ] && gpg --encrypt --output "$(basename "$1").gpg" --recipient "samarvispute121@gmail.com" "$1"; }
 
 source "$HOME"/.TOKENs
 
-eval $(thefuck --alias)
+eval "$(thefuck --alias)"

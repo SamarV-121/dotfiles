@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Name:
+#       removeall
+#
+# Description:
+#       Delete millions of files from current directory in a fraction of second.
+#
+# Dependencies:
+#       perl
+#
+# Installation:
+#       1. Install all the dependencies
+#       2. Copy and paste the script into ~/bin
+#       3. Make it executable using: chmod +x ~/bin/removeall
+#
+# Manual:
+#		$ cd dir_to_remove
+#       $ removeall
+
+# Perl script credits: https://unix.stackexchange.com/a/79656/141909
+
+
+removedir() {
+    for d in *; do
+        if [ -d "$d" ]; then
+            (cd -- "$d" && removedir)
+            rm -rf $d
+        fi
+    done
+    perl -e 'for(<*>){((stat)[9]<(unlink))}'
+    echo "Removed $PWD/*"
+}
+
+read -p "Are you sure to remove all files in current directory [y/N]? " -n 1 -r
+echo    # Move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+	# Remove current directory recursively
+	(removedir)
+fi

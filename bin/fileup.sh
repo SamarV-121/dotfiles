@@ -14,6 +14,9 @@ case $1 in
 --bayfiles | -b)
 	curl -F "file=@$FILE" https://api.bayfiles.com/upload | cut -d'"' -f12
 	;;
+--bashupload | -ba)
+	curl bashupload.com -T "$FILE"
+	;;
 --filepush | -f)
 	curl --upload-file "$FILE" "https://filepush.co/upload/$FILE" | tee /dev/null
 	;;

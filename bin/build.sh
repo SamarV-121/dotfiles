@@ -3,7 +3,7 @@
 # Copyright © 2020-2021, Samar Vispute "SamarV-121" <samarvispute121@gmail.com>
 #
 # SPDX-License-Identifier: Apache-2.0
-
+#
 # Append last dt commit hash to OTA package
 append_dt_commit() {
 	eval "$(grep "export DEVICE_COMMON" device/*/"$DEVICE"/extract-files.sh)"
