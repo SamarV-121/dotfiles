@@ -6,14 +6,15 @@
 #
 # --
 # Options
-# --0x0      	| -0   https://0x0.st
-# --bayfiles 	| -b   https://bayfiles.com
-# --bashupload   | -ba  https://bashupload.com
-# --filepush 	| -f   https://filepush.co
-# --gofile   	| -g   https://gofile.io
-# --github   	| -gh  https://github.com
-# --transfer 	| -t   https://transfer.sh
-# --sourceforge  | -s   https://sourceforge.net
+# --0x0         | -0   https://0x0.st
+# --bayfiles    | -b   https://bayfiles.com
+# --bashupload  | -ba  https://bashupload.com
+# --filepush    | -f   https://filepush.co
+# --keep        | -k   https://keep.sh
+# --gofile      | -g   https://gofile.io
+# --github      | -gh  https://github.com
+# --transfer    | -t   https://transfer.sh
+# --sourceforge | -s   https://sourceforge.net
 #
 
 FILE="$2"
@@ -40,10 +41,13 @@ case $1 in
     # https://github.com/SamarV-121/dotfiles/blob/master/bin/github-release.sh
 	github-release.sh "SamarV-121/mirror" "$(date -u +%Y%m%d_%H%M%S)" "master" "Date: $(env TZ="$timezone" date)" "$FILE"
 	;;
+--keep | -k)
+	curl --upload-file "$FILE" https://free.keep.sh | tee /dev/null
+	;;
 --sourceforge | -s)
 	grep frs.sourceforge.net ~/.ssh/known_hosts >/dev/null || ssh-keyscan frs.sourceforge.net >> "$HOME/.ssh/known_hosts"
 	sshpass -p "$SF_PASS" rsync -avP -e ssh "$FILE" samarv-121@frs.sourceforge.net:/home/frs/project/samarv-121/mirror &&
-	echo "https://sourceforge.net/projects/samarv-121/files/mirror/$FILE"
+	echo "https://sourceforge.net/projects/samarv-121/files/mirror/$(basename "$FILE")"
 	;;
 --transfer | -t)
 	curl --upload-file "$FILE" "http://transfer.sh/$FILE" | tee /dev/null

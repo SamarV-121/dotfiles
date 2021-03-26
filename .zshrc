@@ -30,6 +30,7 @@ source "$HOME/.zsh_custom/zsh-history-substring-search/zsh-history-substring-sea
 # Git config
 git config --global user.name "SamarV-121"
 git config --global user.email "samarvispute121@gmail.com"
+git config --global review.review.lineageos.org.username "SamarV-121"
 git config --global credential.helper store
 git config --global credential.username "SamarV-121"
 git config --global core.hooksPath "$HOME/.git-hooks"
@@ -46,7 +47,7 @@ export USE_CCACHE=1
 export SKIP_ABI_CHECKS=true
 export EDITOR=nano
 export GOPATH=$HOME/.go
-export PATH="$HOME/bin:$HOME/.gem/ruby/2.7.0/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.gem/ruby/2.7.0/bin:$HOME/.google-drive-upload/bin:$PATH"
 export ANDROID_HOME=$HOME/android/sdk/
 export PROMPT_COMMAND='history -a'
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
@@ -75,6 +76,7 @@ alias changemirror='nano /etc/pacman.d/mirrorlist'
 alias cleanup='find ~/.cache/ -type f -atime +100 -delete; sudo journalctl --vacuum-size=50M; sudo pacman -Scc'
 alias cp='cp -p'
 alias da='du -sch'
+alias dc='cd'
 alias df='df -h'
 alias dir='command ls -lSrah'
 alias du='du -c -h'
@@ -168,6 +170,10 @@ function decrypt { [ "$1" ] && gpg --decrypt --output "$(basename "$1" .gpg)" --
 
 function encrypt { [ "$1" ] && gpg --encrypt --output "$(basename "$1").gpg" --recipient "samarvispute121@gmail.com" "$1"; }
 
-source "$HOME"/.TOKENs
+function cd { builtin cd "$@" && ls; }
+
+function rep { grep -rl "$1" | xargs sed -i "s/$1/$2/g"; }
+
+source "$HOME/.TOKENs"
 
 eval "$(thefuck --alias)"

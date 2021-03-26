@@ -1,7 +1,13 @@
 #!/bin/bash
+#
+# Copyright © 2020-2021, Samar Vispute "SamarV-121" <samarvispute121@gmail.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+#
 
 REPOSITORIES=(
 	device/realme/RMX2001
+	device/realme/mt6785-common
 	device/samsung/m20lte
 	device/samsung/m30lte
 	device/samsung/a30
@@ -9,7 +15,7 @@ REPOSITORIES=(
 	device/samsung/universal7904-common
 	kernel/samsung/universal7904
 	vendor/extra
-	vendor/realme/RMX2001
+	vendor/realme
 	vendor/samsung
 )
 BRANCH=lineage-18.1

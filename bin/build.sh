@@ -40,6 +40,10 @@ else
 	read -t5 -r GAPPS
 	echo "export GAPPS=$GAPPS" >>.config
 
+	echo -e "$BOLD"Press Y to include SU
+	read -t5 -r SU
+	echo "export SU=$SU" >>.config
+
 	echo -e "$BOLD"Press Y to upload build
 	read -t5 -r UPLOAD
 	echo "export UPLOAD=$UPLOAD" >>.config
@@ -90,6 +94,7 @@ else
 fi
 
 [[ $GAPPS == Y ]] && export WITH_GAPPS=true
+[[ $SU == Y ]] && export WITH_SU=true
 [[ $CLEAN == Y ]] && rm -rf out
 [[ $DEBUGGING == Y ]] && export WITH_DEBUGGING=true
 if [[ $CCACHE != N ]]; then
@@ -123,7 +128,7 @@ BUILD\_TYPE: $BUILD_TYPE" >/dev/null
 	else
 		rm -f "$OUT"/*zip* out/.lock
 		[[ $INSTALLCLEAN != N ]] && m installclean
-		make "$TARGET_CMD" -j"$(nproc --all)" 2>&1 | tee build_"$DEVICE".log
+		make -j $(nproc --all) "$TARGET_CMD" 2>&1 | tee build_"$DEVICE".log
 	fi
 	BUILD_END=$(date +"%s")
 	BUILD_DIFF=$((BUILD_END - BUILD_START))
@@ -135,7 +140,7 @@ BUILD\_TYPE: $BUILD_TYPE" >/dev/null
 		GH_RELEASE=SamarV-121/releases && TAG=$(date -u +%Y%m%d_%H%M%S)
 		if [[ $UPLOAD == Y ]]; then
 			echo Uploading "$OTA_NAME"...
-			github-release "$GH_RELEASE" "$TAG" "master" "Date: $(env TZ="$timezone" date)" "$OTA_PATH"
+			github-release.sh "$GH_RELEASE" "$TAG" "master" "Date: $(env TZ="$timezone" date)" "$OTA_PATH"
 			echo "Download links:
 GitHub: https://github.com/$GH_RELEASE/releases/download/$TAG/$OTA_NAME
 Md5sum: $OTA_MD5"
@@ -143,7 +148,7 @@ Md5sum: $OTA_MD5"
 Filename: [${OTA_NAME}](https://github.com/$GH_RELEASE/releases/download/$TAG/$OTA_NAME)
 Size: \`$OTA_SIZE\`
 Md5sum: \`$OTA_MD5\`
-Download: [Github](https://github.com/$GH_RELEASE/releases/download/$TAG/$OTA_NAME))" >/dev/null
+Download: [Github](https://github.com/$GH_RELEASE/releases/download/$TAG/$OTA_NAME)" >/dev/null
 			[[ $SPAM_TELEGRAM == Y ]] && curl -s "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendSticker" -d "chat_id=$TELEGRAM_CHAT" -d "sticker=CAADBQAD8gADLG6EE1T3chaNrvilFgQ" >/dev/null
 		else
 			# Flash
