@@ -34,6 +34,7 @@ git config --global review.review.lineageos.org.username "SamarV-121"
 git config --global credential.helper store
 git config --global credential.username "SamarV-121"
 git config --global core.hooksPath "$HOME/.git-hooks"
+git config --global http.postBuffer 524288000
 [[ $(gpg --list-keys) ]] &&
 	git config --global commit.gpgsign true &&
 	git config --global user.signingkey "687A73FEA3744800" &&
@@ -71,9 +72,11 @@ alias 8='cd -8'
 alias 9='cd -9'
 alias _='sudo '
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+alias aria2c='aria2c -x16 -s16'
 alias c=clear
 alias changemirror='nano /etc/pacman.d/mirrorlist'
 alias cleanup='find ~/.cache/ -type f -atime +100 -delete; sudo journalctl --vacuum-size=50M; sudo pacman -Scc'
+alias clip='xclip -selection clipboard'
 alias cp='cp -p'
 alias da='du -sch'
 alias dc='cd'
@@ -173,6 +176,9 @@ function encrypt { [ "$1" ] && gpg --encrypt --output "$(basename "$1").gpg" --r
 function cd { builtin cd "$@" && ls; }
 
 function rep { grep -rl "$1" | xargs sed -i "s/$1/$2/g"; }
+
+function adbs { adb wait-for-device && adb "$@"; }
+function adbr { adb wait-for-device-recovery && adb "$@"; }
 
 source "$HOME/.TOKENs"
 

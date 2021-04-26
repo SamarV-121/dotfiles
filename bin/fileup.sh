@@ -12,10 +12,10 @@
 # --filepush    | -f   https://filepush.co
 # --keep        | -k   https://keep.sh
 # --gofile      | -g   https://gofile.io
-# --github      | -gh  https://github.com
+# --github      | -gh  https://github.com/SamarV-121/dotfiles/blob/master/bin/github-release.sh
 # --transfer    | -t   https://transfer.sh
 # --sourceforge | -s   https://sourceforge.net
-#
+# --x0          | -x   https://x0.at
 
 FILE="$2"
 
@@ -38,7 +38,6 @@ case $1 in
 	echo "https://gofile.io/d/$LINK"
 	;;
 --github | -gh)
-    # https://github.com/SamarV-121/dotfiles/blob/master/bin/github-release.sh
 	github-release.sh "SamarV-121/mirror" "$(date -u +%Y%m%d_%H%M%S)" "master" "Date: $(env TZ="$timezone" date)" "$FILE"
 	;;
 --keep | -k)
@@ -51,6 +50,9 @@ case $1 in
 	;;
 --transfer | -t)
 	curl --upload-file "$FILE" "http://transfer.sh/$FILE" | tee /dev/null
+	;;
+--x0 | -x)
+	curl -F "file=@$FILE" https://x0.at | tee /dev/null
 	;;
 	*)
 	sed -n '/^$/q;/# --/,$ s/^#*//p' "$0"

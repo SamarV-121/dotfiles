@@ -18,6 +18,7 @@ git -C "$HOME/.dotfiles" submodule update --init --recursive
 # Symlink
 ln -sf "$HOME/.dotfiles/.git-hooks" "$HOME/.git-hooks"
 ln -sf "$HOME/.dotfiles/.p10k.zsh" "$HOME/.p10k.zsh"
+ln -sf "$HOME/.dotfiles/.tmate.conf" "$HOME/.tmate.conf"
 ln -sf "$HOME/.dotfiles/.zshrc" "$HOME/.zshrc"
 ln -sf "$HOME/.dotfiles/.zsh_custom" "$HOME/.zsh_custom"
 ln -sf "$HOME/.dotfiles/bin" "$HOME/bin"

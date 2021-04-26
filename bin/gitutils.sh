@@ -10,6 +10,7 @@ PATCH=$(curl -s "$URL.patch")
 commit_msg=$(echo "$PATCH" | sed -n '/PATCH/,/---/p' | sed -e 's/.*] //' -e '$ d')
 date=$(echo "$PATCH" | grep 'Date: ' | sed 's/Date: //')
 author=$(echo "$PATCH" | grep 'From: ' | sed 's/From: //')
+
 case $1 in
 -am)
 	echo "$PATCH" | git am -3
