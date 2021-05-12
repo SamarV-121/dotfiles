@@ -31,6 +31,9 @@ source "$HOME/.zsh_custom/zsh-history-substring-search/zsh-history-substring-sea
 git config --global user.name "SamarV-121"
 git config --global user.email "samarvispute121@gmail.com"
 git config --global review.review.lineageos.org.username "SamarV-121"
+git config --global review.review.lineageos.org.email "samarvispute121@gmail.com"
+git config --global gerrit.twrp.me.username "SamarV-121"
+git config --global gerrit.twrp.me.email "samarvispute121@gmail.com"
 git config --global credential.helper store
 git config --global credential.username "SamarV-121"
 git config --global core.hooksPath "$HOME/.git-hooks"
@@ -53,6 +56,7 @@ export ANDROID_HOME=$HOME/android/sdk/
 export PROMPT_COMMAND='history -a'
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
 export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m"
+export CLOUDSDK_PYTHON=python2
 
 # Alias
 alias ..='cd ..'
@@ -88,22 +92,21 @@ alias fileup='fileup.sh'
 alias free='free -h'
 alias freemem='sudo /sbin/sysctl -w vm.drop_caches=3'
 alias ga='git add -A'
-alias gc='git commit -s'
+alias gcm='git commit -s'
 alias gch='git cherry-pick'
 alias gcp='gcloud alpha cloud-shell ssh'
 alias gchc='git cherry-pick --continue'
-alias gcl='git reset --hard && git clean -f -d'
+alias gre='git_reset'
 alias gd='gdrive download'
 alias gf='git fetch'
 alias github-release='github-release.sh'
 alias gt='gitutils.sh'
 alias gmc='git am --continue'
 alias gmr='git am --abort'
-alias go='git clone --depth=1'
+alias gcl='git clone --depth=1'
 alias gp='git push -f'
 alias gr='git revert'
 alias gra='git remote add'
-alias gre='git reset --hard'
 alias grep='grep --color=tty -d skip'
 alias gu='gdrive upload'
 alias history=omz_history
@@ -179,6 +182,8 @@ function rep { grep -rl "$1" | xargs sed -i "s/$1/$2/g"; }
 
 function adbs { adb wait-for-device && adb "$@"; }
 function adbr { adb wait-for-device-recovery && adb "$@"; }
+
+function git_reset { git reset --hard "$1" && git clean -f -d; }
 
 source "$HOME/.TOKENs"
 
