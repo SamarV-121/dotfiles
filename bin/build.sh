@@ -87,7 +87,7 @@ else
 
 	echo "Press Y to Spam Telegram"
 	read -t5 -r SPAM_TELEGRAM
-	echo "export SPAM_TELEGRAM=Y" >>.config
+	echo "export SPAM_TELEGRAM=$SPAM_TELEGRAM" >>.config
 
 	echo "Press N to disable CCACHE"
 	read -t5 -r CCACHE
@@ -116,7 +116,7 @@ fi
 
 echo -e "$nocol"
 
-[ "$GAPPS" = Y ] && export WITH_GAPPS=true
+[ "$GAPPS" = Y ] && export WITH_GMS=true
 [ "$SU" = Y ] && export WITH_SU=true
 [ "$CLEAN" = Y ] && rm -rf out
 [ "$DEBUGGING" = Y ] && export WITH_DEBUGGING=true

@@ -51,7 +51,7 @@ export USE_CCACHE=1
 export SKIP_ABI_CHECKS=true
 export EDITOR=nano
 export GOPATH=$HOME/.go
-export PATH="$HOME/bin:$HOME/.gem/ruby/2.7.0/bin:$HOME/.google-drive-upload/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.gem/ruby/2.7.0/bin:$HOME/.google-drive-upload/bin:$HOME/.cargo/bin:$PATH"
 export ANDROID_HOME=$HOME/android/sdk/
 export PROMPT_COMMAND='history -a'
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
@@ -97,7 +97,7 @@ alias gch='git cherry-pick'
 alias gcp='gcloud alpha cloud-shell ssh'
 alias gchc='git cherry-pick --continue'
 alias gre='git_reset'
-alias gd='gdrive download'
+alias gd='gdrive download --recursive'
 alias gf='git fetch'
 alias github-release='github-release.sh'
 alias gt='gitutils.sh'
@@ -153,9 +153,10 @@ alias rsto='repo status -o'
 alias ru='repo upload'
 alias scat='sudo cat'
 alias search='yay -Ss'
+alias snano='sudo nano'
 alias ssh='ssh -o ServerAliveInterval=60'
 alias sudo='sudo '
-alias sync='repo sync -c -q -j$(nproc --all) --no-clone-bundle --no-tags --optimized-fetch --prune'
+alias sync='repo sync -c -j$(nproc --all) --no-clone-bundle --no-tags --optimized-fetch --prune'
 alias tlog='sudo journalctl -f'
 alias update='yay -Syy'
 alias upgrade='yay -Syyu'
@@ -183,7 +184,19 @@ function rep { grep -rl "$1" | xargs sed -i "s/$1/$2/g"; }
 function adbs { adb wait-for-device && adb "$@"; }
 function adbr { adb wait-for-device-recovery && adb "$@"; }
 
-function git_reset { git reset --hard "$1" && git clean -f -d; }
+function git_reset {
+	if [ "$2" ]; then
+	git restore --source="$1" --staged --worktree -- "$2"
+	else
+	git reset --hard "$1" && git clean -f -d
+  fi
+}
+
+function copy {
+cat << EOF > "$1"
+${@:2}
+EOF
+}
 
 source "$HOME/.TOKENs"
 
